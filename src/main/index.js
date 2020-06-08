@@ -18,13 +18,13 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 function callNotification(){
-  
+
 }
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-const apiUrl = "http://91.134.24.233:8083/"
+const apiUrl = "https://health.rushydro.ru/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
@@ -42,7 +42,7 @@ function createVideoWindow () {
         body: 'Пришло время пройти зарядку'
       };
       var notific = new Notification(notif)
-      
+
       notific.show()
       notific.on('click', function() {
         if (mainWindow!=null) {
@@ -67,16 +67,16 @@ function initPrc () {
   // })
   // client.connect()
   // client.query('SELECT * from video', (err, res) => {
-    
+
   //   res.rows.forEach(v => {
-  
+
   var videos = [];
   var viddir = path.resolve(__dirname, 'videos');
   fs.readdir(viddir, function (err, files) {
     //handling error
     if (err) {
         return console.log('Unable to scan directory: ' + err);
-    } 
+    }
     //listing all files using forEach
     files.forEach(function (file) {
         // Do whatever you want to do with the file
@@ -88,7 +88,7 @@ function initPrc () {
   //     height: 10,
   //     width: 10,
   //     frame: false,
-  //     show: false 
+  //     show: false
   //   })
   //   mainWindow.hide();
   //   resp.data.forEach(vid => {
@@ -118,7 +118,7 @@ function initPrc () {
             webSecurity: false
           }
         })
-        
+
         mainWindow.loadURL(winURL + "#/notification?video_id=" + v.VideoID)
         mainWindow.on('closed', () => {
           mainWindow = null
@@ -127,7 +127,7 @@ function initPrc () {
     })
     // client.end()
   })
-  
+
 }
 
 app.on('ready', initPrc)
@@ -145,9 +145,9 @@ app.on('activate', () => {
 })
 
 ipcMain.on('open-video', (event, arg) => {
-  var d = Date(Date.now()); 
-  
-  // Converting the number of millisecond in date string 
+  var d = Date(Date.now());
+
+  // Converting the number of millisecond in date string
   var a = d.toString()
   var vidWindow = new BrowserWindow({
     height: 540,
@@ -157,7 +157,7 @@ ipcMain.on('open-video', (event, arg) => {
       webSecurity: false
     }
   });
-  
+
   vidWindow.loadURL(winURL + "#/video/" + arg)
   vidWindow.maximize()
 });
@@ -166,10 +166,10 @@ ipcMain.on('declined-video', (event, arg) => {
   const text = 'INSERT INTO stats(username, date, status, video_id) VALUES($1, $2, $3, $4)'
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "decline", arg]
   const client = new Client({
-    user: 'mss',
-    host: '10.101.104.81',
-    database: 'jerks',
-    password: 'Abc123',
+    user: 'postgres',
+    host: 'health.rushydro.ru',
+    database: 'health',
+    password: 'postgres',
     port: 5432,
   })
   client.connect()
@@ -182,10 +182,10 @@ ipcMain.on('watchedhalf-video', (event, arg) => {
   const text = 'INSERT INTO stats(username, date, status, time, video_id) VALUES($1, $2, $3, $4, $5)'
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "half", arg.time, arg.video_id]
   const client = new Client({
-    user: 'mss',
-    host: '10.101.104.81',
-    database: 'jerks',
-    password: 'Abc123',
+    user: 'postgres',
+    host: 'health.rushydro.ru',
+    database: 'health',
+    password: 'postgres',
     port: 5432,
   })
   client.connect()
@@ -198,10 +198,10 @@ ipcMain.on('watchedfull-video', (event, arg) => {
   const text = 'INSERT INTO stats(username, date, status, video_id) VALUES($1, $2, $3, $4)'
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "full", arg]
   const client = new Client({
-    user: 'mss',
-    host: '10.101.104.81',
-    database: 'jerks',
-    password: 'Abc123',
+    user: 'postgres',
+    host: 'health.rushydro.ru',
+    database: 'health',
+    password: 'postgres',
     port: 5432,
   })
   client.connect()
