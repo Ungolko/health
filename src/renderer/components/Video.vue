@@ -1,7 +1,7 @@
 <template lang="pug">
   .videos
     video.video#vid(autoplay :controls='false' ref='vid' @ended="onEnd")
-      source(:src='"http://91.134.24.233:8083/" + $route.params.id + ".mp4"' type='video/mp4')
+      source(:src='"http://10.101.104.29:8083/upload/" + $route.params.id + ".mp4"' type='video/mp4')
 </template>
 <script>
 const { ipcRenderer, remote } = require('electron');
