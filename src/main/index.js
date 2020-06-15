@@ -24,7 +24,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-const apiUrl = "https://health.rushydro.ru/"
+const apiUrl = "http://health.rushydro.ru/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
