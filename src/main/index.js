@@ -83,23 +83,23 @@ function initPrc () {
         videos.push(file)
     });
   });
-  // axios.get(apiUrl + "api/v1/videos").then( resp => {
-  //   mainWindow = new BrowserWindow({
-  //     height: 10,
-  //     width: 10,
-  //     frame: false,
-  //     show: false
-  //   })
-  //   mainWindow.hide();
-  //   resp.data.forEach(vid => {
-  //     if (videos.indexOf(vid.ID + ".mp4") == -1) {
-  //       var file = fs.createWriteStream(app.getDataPath() + "videos/" + vid.ID + ".mp4");
-  //       var request = http.get(apiUrl + "upload/" + vid.ID + ".mp4", function(response) {
-  //         response.pipe(file);
-  //       });
-  //     }
-  //   })
-  // })
+  axios.get(apiUrl + "api/v1/videos").then( resp => {
+    mainWindow = new BrowserWindow({
+      height: 10,
+      width: 10,
+      frame: false,
+      show: false
+    })
+    mainWindow.hide();
+    resp.data.forEach(vid => {
+      if (videos.indexOf(vid.ID + ".mp4") == -1) {
+        var file = fs.createWriteStream(app.getDataPath() + "videos/" + vid.ID + ".mp4");
+        var request = http.get(apiUrl + "upload/" + vid.ID + ".mp4", function(response) {
+          response.pipe(file);
+        });
+      }
+    })
+  })
   const today = new Date()
   axios.get(apiUrl + "api/v1/shedule/" + today.getDay()).then( resp => {
     resp.data.forEach(v => {
