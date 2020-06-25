@@ -72,6 +72,14 @@ function initPrc () {
 
   var videos = [];
   var viddir = path.resolve(__dirname, 'videos');
+  if(!fs.existsSync(viddir)){
+    fs.mkdir(viddir, "0766", function(err){
+        if(err){
+            console.log(err);
+        }
+    });
+  }
+  
   fs.readdir(viddir, function (err, files) {
     //handling error
     if (err) {
