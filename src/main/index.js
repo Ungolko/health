@@ -24,7 +24,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-const apiUrl = "http://health.rushydro.ru/"
+const apiUrl = "http://10.101.104.29:8083/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
@@ -79,7 +79,7 @@ function initPrc () {
         }
     });
   }
-  
+
   fs.readdir(viddir, function (err, files) {
     //handling error
     if (err) {
@@ -175,7 +175,7 @@ ipcMain.on('declined-video', (event, arg) => {
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "decline", arg]
   const client = new Client({
     user: 'postgres',
-    host: 'health.rushydro.ru',
+    host: '10.101.104.29',
     database: 'health',
     password: 'postgres',
     port: 5432,
@@ -191,7 +191,7 @@ ipcMain.on('watchedhalf-video', (event, arg) => {
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "half", arg.time, arg.video_id]
   const client = new Client({
     user: 'postgres',
-    host: 'health.rushydro.ru',
+    host: '10.101.104.29',
     database: 'health',
     password: 'postgres',
     port: 5432,
@@ -207,7 +207,7 @@ ipcMain.on('watchedfull-video', (event, arg) => {
   const values = [name, format(d, "dd/MM/yyyy HH:mm:ss"), "full", arg]
   const client = new Client({
     user: 'postgres',
-    host: 'health.rushydro.ru',
+    host: '10.101.104.29',
     database: 'health',
     password: 'postgres',
     port: 5432,
