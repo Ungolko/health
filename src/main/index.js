@@ -15,28 +15,28 @@ const appPath =
     ? `${process.resourcesPath}`
     : __dirname;
 
-var AutoLaunch = require('auto-launch');
+// var AutoLaunch = require('auto-launch');
  
-var minecraftAutoLauncher = new AutoLaunch({
-  name: 'РусГидро.Здоровье',
-  path: path.join(appPath,'РусГидро.Здоровье.exe'),
-});
+// var minecraftAutoLauncher = new AutoLaunch({
+//   name: 'РусГидро.Здоровье',
+//   path: path.join(appPath,'РусГидро.Здоровье.exe'),
+// });
  
-minecraftAutoLauncher.enable();
+// minecraftAutoLauncher.enable();
  
 //minecraftAutoLauncher.disable();
  
  
-minecraftAutoLauncher.isEnabled()
-.then(function(isEnabled){
-    if(isEnabled){
-        return;
-    }
-    minecraftAutoLauncher.enable();
-})
-.catch(function(err){
-    // handle error
-});
+// minecraftAutoLauncher.isEnabled()
+// .then(function(isEnabled){
+//     if(isEnabled){
+//         return;
+//     }
+//     minecraftAutoLauncher.enable();
+// })
+// .catch(function(err){
+//     // handle error
+// });
 
 electronDl();
 
@@ -56,7 +56,7 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
   
-const apiUrl = "http://10.101.104.29:8083/"
+const apiUrl = "http://localhost:8083/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
@@ -261,6 +261,8 @@ ipcMain.on('watchedfull-video', (event, arg) => {
     Type: "decline"
   })
 });
+
+
 
 /**
  * Auto Updater
