@@ -49,14 +49,13 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 function callNotification(){
-  
+
 }
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-  
-const apiUrl = "http://localhost:8083/"
+const apiUrl = "http://10.101.104.29:8083/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
@@ -74,7 +73,7 @@ function createVideoWindow () {
         body: 'Пришло время пройти зарядку'
       };
       var notific = new Notification(notif)
-      
+
       notific.show()
       notific.on('click', function() {
         if (mainWindow!=null) {
@@ -152,7 +151,7 @@ function initPrc () {
     //handling error
     if (err) {
         return console.log('Unable to scan directory: ' + err);
-    } 
+    }
     //listing all files using forEach
     files.forEach(function (file) {
         // Do whatever you want to do with the file
@@ -197,7 +196,7 @@ function initPrc () {
             webSecurity: false
           }
         })
-        
+
         mainWindow.loadURL(winURL + "#/notification?video_id=" + v.VideoID)
         mainWindow.on('closed', () => {
           mainWindow = null
@@ -206,7 +205,7 @@ function initPrc () {
     })
     // client.end()
   })
-  
+
 }
 
 app.on('ready', initPrc)
@@ -224,9 +223,9 @@ app.on('activate', () => {
 })
 
 ipcMain.on('open-video', (event, arg) => {
-  var d = Date(Date.now()); 
-  
-  // Converting the number of millisecond in date string 
+  var d = Date(Date.now());
+
+  // Converting the number of millisecond in date string
   var a = d.toString()
   var vidWindow = new BrowserWindow({
     height: 540,
@@ -236,7 +235,7 @@ ipcMain.on('open-video', (event, arg) => {
       webSecurity: false
     }
   });
-  
+
   vidWindow.loadURL(winURL + "#/video/" + arg)
   vidWindow.maximize()
 });
