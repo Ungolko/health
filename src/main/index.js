@@ -15,6 +15,11 @@ const appPath =
     ? `${process.resourcesPath}`
     : __dirname;
 
+
+(async () => {
+  name = await username();
+  //=> 'sindresorhus'
+})();
 // var AutoLaunch = require('auto-launch');
  
 // var minecraftAutoLauncher = new AutoLaunch({
@@ -55,7 +60,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-const apiUrl = "http://10.101.104.29:8083/"
+const apiUrl = "http://localhost:8083/"
 function createVideoWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
@@ -240,24 +245,26 @@ ipcMain.on('open-video', (event, arg) => {
   vidWindow.maximize()
 });
 ipcMain.on('declined-video', (event, arg) => {
-  axios.post(apiUrl + "api/v1/stats", {
-    VID: arg,
+  var body = {
+    VID: parseInt(arg),
     Name: name,
     Type: "decline"
-  })
+  }
+  console.log(body)
+  axios.post(apiUrl + "api/v1/stats", body)
 });
 ipcMain.on('watchedhalf-video', (event, arg) => {
   axios.post(apiUrl + "api/v1/stats", {
-    VID: arg.video_id,
+    VID: parseInt(arg.video_id),
     Name: name,
-    Type: "decline"
+    Type: "half"
   })
 });
 ipcMain.on('watchedfull-video', (event, arg) => {
   axios.post(apiUrl + "api/v1/stats", {
-    VID: arg,
+    VID: parseInt(arg),
     Name: name,
-    Type: "decline"
+    Type: "full"
   })
 });
 
