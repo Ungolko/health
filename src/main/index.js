@@ -182,9 +182,17 @@ function initPrc () {
         // });
       }
     })
+    console.log("videos updated")
+  }).catch(err => {
+    console.log("error in video update")
+    if(err){
+      console.log(err);
+    }
   })
   const today = new Date()
-  axios.get(apiUrl + "api/v1/shedule/" +( today.getDay() - 1)).then( resp => {
+  var dateW = today.getDay() - 1
+  if (dateW == -1) dateW = 6
+  axios.get(apiUrl + "api/v1/shedule/" + dateW).then( resp => {
     resp.data.forEach(v => {
       console.log(v)
       schedule.scheduleJob(`${v.Time.split(":").reverse().join(" ")} * * *`, function(){
@@ -208,7 +216,13 @@ function initPrc () {
         })
       })
     })
+    console.log("schedule updated")
     // client.end()
+  }).catch(err => {
+    console.log("error in schedule update")
+    if(err){
+      console.log(err);
+    }
   })
 
 }
@@ -251,13 +265,23 @@ ipcMain.on('declined-video', (event, arg) => {
     Type: "decline"
   }
   console.log(body)
-  axios.post(apiUrl + "api/v1/stats", body)
+  axios.post(apiUrl + "api/v1/stats", body).then(() => console.log(`video declined by ${name}`)).catch(err => {
+    console.log("error in video declined update")
+    if(err){
+      console.log(err);
+    }
+  })
 });
 ipcMain.on('watchedhalf-video', (event, arg) => {
   axios.post(apiUrl + "api/v1/stats", {
     VID: parseInt(arg.video_id),
     Name: name,
     Type: "half"
+  }).then(() => console.log(`video half by ${name}`)).catch(err => {
+    console.log("error in video half update")
+    if(err){
+      console.log(err);
+    }
   })
 });
 ipcMain.on('watchedfull-video', (event, arg) => {
@@ -265,6 +289,11 @@ ipcMain.on('watchedfull-video', (event, arg) => {
     VID: parseInt(arg),
     Name: name,
     Type: "full"
+  }).then(() => console.log(`video full by ${name}`)).catch(err => {
+    console.log("error in video full update")
+    if(err){
+      console.log(err);
+    }
   })
 });
 
